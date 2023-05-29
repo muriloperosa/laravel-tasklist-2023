@@ -39,7 +39,7 @@
                                     <td>
                                         <a href="{{ route('category.edit', ['category' => $category->id])}}" class="btn btn-sm btn-info">Editar</a>
 
-                                        <form style="display: inline-block;" action="{{ route('category.destroy', ['category' => $category->id])}}" method="POST">
+                                        <form class="form-delete" style="display: inline-block;" action="{{ route('category.destroy', ['category' => $category->id])}}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger">Deletar</button>
@@ -58,4 +58,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Selecione todos os formulários com a classe "form-delete"
+        const formDeleteList = document.querySelectorAll('.form-delete');
+
+        // Itere sobre cada formulário e atribua o evento de clique
+        formDeleteList.forEach(function(formDelete) {
+
+            // Adicione o listener para o evento de 'submit'
+            formDelete.addEventListener('submit', function(event) {
+
+                // Bloqueio o envio do formulário até que o usuário confirme a ação
+                event.preventDefault();
+
+                // Exiba o modal de confirmação
+                const shouldProceed = confirm('Tem certeza de que deseja excluir?');
+
+                // Caso confirmado prossiga com a deleção
+                if (shouldProceed) {
+                    formDelete.submit();
+                }
+            });
+        });
+    </script>
 @endsection
